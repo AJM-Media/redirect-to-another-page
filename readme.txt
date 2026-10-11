@@ -20,7 +20,7 @@ Need a page to send visitors somewhere else? Open it, paste the new address into
 * **Redirect to any address**: another page on your site, or any other website.
 * **Choose the type**: 301 (moved permanently), 302 or 307 (temporary).
 * **Link straight to the new address**: menus and post lists can point at the new address, so visitors skip the redirect.
-* **New tab and nofollow** for menu links, in classic menus and the Navigation block.
+* **New tab and nofollow** for menu links, in classic menus and the Navigation block (WordPress 6.2 or later).
 * **View the page without redirecting** while you're logged in, so you can still check and edit it.
 
 = Redirects for old addresses =
