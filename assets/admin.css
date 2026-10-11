@@ -4,6 +4,14 @@
 	margin-bottom: 4px;
 }
 
+.rtap-box input[type="text"],
+.rtap-box select {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+}
+
 .rtap-box .description {
 	display: block;
 	margin-top: 4px;
