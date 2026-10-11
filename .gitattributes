@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+
+/.github export-ignore
+/tests export-ignore
+/listing-images export-ignore
+/.wordpress-org export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/README.md export-ignore

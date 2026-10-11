@@ -1,0 +1,37 @@
+name: Tests
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php }}, WP ${{ matrix.wp }}, ${{ matrix.server }}, ${{ matrix.install }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { php: '7.4', wp: '6.0', server: apache, install: root }
+          - { php: '8.1', wp: '6.0', server: apache, install: root }
+          - { php: '8.3', wp: '6.0', server: apache, install: root }
+          - { php: '7.4', wp: latest, server: apache, install: root }
+          - { php: '8.1', wp: latest, server: apache, install: root }
+          - { php: '8.3', wp: latest, server: apache, install: root }
+          - { php: '8.3', wp: latest, server: apache, install: subfolder }
+          - { php: '8.3', wp: latest, server: apache, install: multisite }
+          - { php: '8.3', wp: latest, server: nginx, install: root }
+          - { php: '8.3', wp: latest, server: nginx, install: subfolder }
+          - { php: '8.3', wp: latest, server: nginx, install: multisite }
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash tests/run.sh
+        env:
+          PHP_VERSION: ${{ matrix.php }}
+          WP_VERSION: ${{ matrix.wp }}
+          SERVER: ${{ matrix.server }}
+          INSTALL: ${{ matrix.install }}

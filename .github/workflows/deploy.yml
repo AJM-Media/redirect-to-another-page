@@ -1,0 +1,29 @@
+name: Deploy to WordPress.org
+
+on:
+  push:
+    tags: ['[0-9]+.[0-9]+.[0-9]+']
+
+jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
+
+  deploy:
+    needs: tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the version numbers match the tag
+        run: |
+          header=$(grep -m1 'Version:' redirect-to-another-page.php | awk '{print $NF}')
+          constant=$(grep -m1 "'RTAP_VERSION'" redirect-to-another-page.php | grep -o "'[0-9.]*'" | tr -d "'")
+          stable=$(grep -m1 'Stable tag:' readme.txt | awk '{print $NF}')
+          echo "tag $GITHUB_REF_NAME, header $header, constant $constant, stable tag $stable"
+          [ "$GITHUB_REF_NAME" = "$header" ] && [ "$GITHUB_REF_NAME" = "$constant" ] && [ "$GITHUB_REF_NAME" = "$stable" ]
+
+      - uses: 10up/action-wordpress-plugin-deploy@2.3.0
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: redirect-to-another-page
